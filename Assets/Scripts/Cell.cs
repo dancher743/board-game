@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BoardGame
 {
-    public class Player : MonoBehaviour
+    public class Cell : MonoBehaviour
     {
     }
 }

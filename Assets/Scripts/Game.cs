@@ -7,17 +7,9 @@ namespace BoardGame
         [SerializeField]
         private Board board;
 
-        public void Update()
+        public void Awake()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                board.MovePlayerOn(1);
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                board.MovePlayerOn(-1);
-            }
+            board.Initialize();
         }
     }
 }
