@@ -4,12 +4,8 @@ namespace BoardGame
 {
     public class Board : MonoBehaviour
     {
+        [SerializeField]
         private Player player;
-
-        public void Initialize(Player player)
-        {
-            this.player = player;
-        }
 
         public void MovePlayerOn(int cellCount)
         {
