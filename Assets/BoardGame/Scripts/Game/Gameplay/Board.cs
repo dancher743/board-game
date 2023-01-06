@@ -19,6 +19,7 @@ namespace BoardGame
         public void Initialize()
         {
             playerToCell = new Dictionary<Player, Cell>();
+
             cells = GetCells();
 
             SetPlayerToCell(player, cells.FirstOrDefault());

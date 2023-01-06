@@ -8,8 +8,6 @@ namespace BoardGame.UI
 {
     public class GameUI : MonoBehaviour
     {
-        public UnityAction DiceButtonClicked;
-
         [Header("Dice button")]
         [SerializeField]
         private Button diceButton;
@@ -24,15 +22,22 @@ namespace BoardGame.UI
 
         private Coroutine disappearStatusTextCoroutine;
 
-        private void Awake()
+        public void Initialize(UnityAction diceButtonClicked, bool isStatusTextActive)
         {
-            SetStatusActive(false);
-            diceButton.onClick.AddListener(() => DiceButtonClicked?.Invoke());
+            diceButton.onClick.AddListener(diceButtonClicked);
+            SetStatusActive(isStatusTextActive);
         }
 
         private void OnDestroy()
         {
             Clear();
+        }
+
+        public void Clear()
+        {
+            StopAllCoroutines();
+            statusText.text = string.Empty;
+            diceButton.onClick.RemoveAllListeners();
         }
 
         public void SetStatus(string text)
@@ -48,18 +53,12 @@ namespace BoardGame.UI
             disappearStatusTextCoroutine = StartCoroutine(DisappearStatusTextRoutine());
         }
 
-        public void SetStatusActive(bool value)
+        private void SetStatusActive(bool value)
         {
             statusText.gameObject.SetActive(value);
         }
 
-        public void Clear()
-        {
-            statusText.text = string.Empty;
-            diceButton.onClick.RemoveAllListeners();
-        }
-
-        public IEnumerator DisappearStatusTextRoutine()
+        private IEnumerator DisappearStatusTextRoutine()
         {
             yield return new WaitForSeconds(DisappearStatusTextTime);
 

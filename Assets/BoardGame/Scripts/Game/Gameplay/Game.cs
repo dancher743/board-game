@@ -13,18 +13,18 @@ namespace BoardGame
         [SerializeField]
         private Board board;
 
-        public void Awake()
+        public void Start()
         {
-            UI.DiceButtonClicked += OnDiceButtonClicked;
+            UI.Initialize(OnDiceButtonClicked, false);
             board.Initialize();
         }
 
         public void Clear()
         {
-            UI.DiceButtonClicked -= OnDiceButtonClicked;
+            UI.Clear();
         }
 
-        public int RollDice()
+        private int RollDice()
         {
             return Random.Range(1, 7);
         }
