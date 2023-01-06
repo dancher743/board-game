@@ -509,3 +509,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diceButton: {fileID: 4730531378888367867}
   statusText: {fileID: 7632070717088362532}
+  DisappearStatusTextTime: 1.5

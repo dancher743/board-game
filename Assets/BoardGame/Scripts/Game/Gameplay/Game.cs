@@ -15,7 +15,6 @@ namespace BoardGame
 
         public void Awake()
         {
-            UI.SetStatusActive(false);
             UI.DiceButtonClicked += OnDiceButtonClicked;
             board.Initialize();
         }
@@ -34,7 +33,6 @@ namespace BoardGame
         {
             var pips = RollDice();
 
-            UI.SetStatusActive(true);
             UI.SetStatus(string.Format(StatusText, pips));
             board.MovePlayerOnCell(pips);
         }
