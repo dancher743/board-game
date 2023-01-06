@@ -113,9 +113,9 @@ namespace BoardGame
                 MovePlayerOnCell(player, -1);
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                SetPlayerToCell(player, cells[2]);
+                SetPlayerToCell(player, cells[0]);
             }
         }
 
