@@ -24,6 +24,11 @@ namespace BoardGame
             SetPlayerToCell(player, cells.FirstOrDefault());
         }
 
+        public void MovePlayerOnCell(int cellCount)
+        {
+            MovePlayerOnCell(player, cellCount);
+        }
+
         private void MovePlayerOnCell(Player player, int cellCount)
         {
             if (playerToCell == null)

@@ -30,7 +30,7 @@ namespace BoardGame.UI
             statusText.text = text;
         }
 
-        public void SetStatusTextActive(bool value)
+        public void SetStatusActive(bool value)
         {
             statusText.gameObject.SetActive(value);
         }
