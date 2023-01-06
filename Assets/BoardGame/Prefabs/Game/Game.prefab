@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f0b51e1dc931c4c9c3137aa7288b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 0}
+  board: {fileID: 0}
+  diceRange: 6

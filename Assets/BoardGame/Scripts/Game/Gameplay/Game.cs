@@ -5,6 +5,8 @@ namespace BoardGame
 {
     public class Game : MonoBehaviour
     {
+        private const int MinDiceRange = 1;
+        private const int MaxDiceRange = 12;
         private const string StatusText = "Result of roll is {0}!";
 
         [SerializeField]
@@ -12,6 +14,10 @@ namespace BoardGame
 
         [SerializeField]
         private Board board;
+
+        [Range(MinDiceRange, MaxDiceRange)]
+        [SerializeField]
+        private int diceRange = MinDiceRange;
 
         public void Start()
         {
@@ -26,7 +32,8 @@ namespace BoardGame
 
         private int RollDice()
         {
-            return Random.Range(1, 7);
+            var exclusiveValue = 1;
+            return Random.Range(MinDiceRange, diceRange + exclusiveValue);
         }
 
         private void OnDiceButtonClicked()
@@ -34,7 +41,7 @@ namespace BoardGame
             var pips = RollDice();
 
             UI.SetStatus(string.Format(StatusText, pips));
-            board.MovePlayerOnCell(pips);
+            board.MovePlayerOnCells(pips);
         }
     }
 }
