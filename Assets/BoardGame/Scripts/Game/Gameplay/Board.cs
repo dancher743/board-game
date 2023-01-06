@@ -25,12 +25,12 @@ namespace BoardGame
             SetPlayerToCell(player, cells.FirstOrDefault());
         }
 
-        public void MovePlayerOnCell(int cellCount)
+        public void MovePlayerOnCells(int count)
         {
-            MovePlayerOnCell(player, cellCount);
+            MovePlayerOnCells(player, count);
         }
 
-        private void MovePlayerOnCell(Player player, int cellCount)
+        private void MovePlayerOnCells(Player player, int count)
         {
             if (playerToCell == null)
             {
@@ -44,10 +44,10 @@ namespace BoardGame
                 return;
             }
 
-            var nextCellIndex = cells.IndexOf(cell) + cellCount;
-            var cellsIndex = cells.Count - 1;
+            var nextCellIndex = cells.IndexOf(cell) + count;
+            var allCellsIndex = cells.Count - 1;
 
-            if (nextCellIndex < 0 || nextCellIndex > cellsIndex)
+            if (nextCellIndex < 0 || nextCellIndex > allCellsIndex)
             {
                 return;
             }
@@ -106,12 +106,12 @@ namespace BoardGame
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                MovePlayerOnCell(player, 1);
+                MovePlayerOnCells(player, 1);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                MovePlayerOnCell(player, -1);
+                MovePlayerOnCells(player, -1);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
