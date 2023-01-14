@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BoardGame.Utils
+namespace Core.Utils
 {
     public class TargetFollower : MonoBehaviour
     {
