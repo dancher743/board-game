@@ -58,7 +58,6 @@ namespace BoardGame
 
             // A View code.
             player.transform.position = nextCell.transform.position;
-            player.transform.rotation = nextCell.transform.rotation;
         }
 
         private void SetPlayerToCell(Player player, Cell cell)
@@ -79,7 +78,6 @@ namespace BoardGame
 
             // A View code.
             player.transform.position = cell.transform.position;
-            player.transform.rotation = cell.transform.rotation;
         }
 
         private List<Cell> GetCells()
