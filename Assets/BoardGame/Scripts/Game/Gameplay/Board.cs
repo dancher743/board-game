@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -123,5 +124,37 @@ namespace BoardGame
         }
 
         #endregion
+
+
+#if UNITY_EDITOR
+        [Button]
+        private void NumerateCells()
+        {
+            int number = 1;
+
+            var cells = transform.Find("Cells");
+
+            if (cells == null)
+            {
+                Debug.LogError("Cells are not found.");
+                return;
+            }
+
+            foreach (Transform cell in cells)
+            {
+                cell.name = $"Cell{number}";
+                var cellText = cell.GetComponentInChildren<TextMesh>();
+
+                if (cellText != null)
+                {
+                    cellText.text = number.ToString();
+                }
+
+                number++;
+            }
+
+            Debug.Log($"Cells has been successfully renamed.");
+        }
+#endif
     }
 }
