@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca990e49179090419293c1dc24a2d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   cellsParent: {fileID: 3810603107688749161}
+  player: {fileID: 0}
 --- !u!1 &8052424589001403542
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,6 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3810603107688749161}
+  - component: {fileID: 406585988716547443}
   m_Layer: 0
   m_Name: Cells
   m_TagString: Untagged
@@ -78,3 +79,26 @@ Transform:
   m_Father: {fileID: 3464861869980563815}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &406585988716547443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052424589001403542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5bfee4a8b7e9a4e9dfc81c8e7911ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elements:
+  - <Prefab>k__BackingField: {fileID: 2180556649680114636, guid: b91c66c9fe87c414f8a3707ffc84c092, type: 3}
+    <RandomAmount>k__BackingField: {x: 3, y: 5}
+    <IsConnector>k__BackingField: 1
+  - <Prefab>k__BackingField: {fileID: 2952185551881090861, guid: dd8171c732f3a6d44a53e73935073ed3, type: 3}
+    <RandomAmount>k__BackingField: {x: 2, y: 5}
+    <IsConnector>k__BackingField: 0
+  - <Prefab>k__BackingField: {fileID: 3045132351710207055, guid: d9d15888547a9f14d90f7371a36f16ae, type: 3}
+    <RandomAmount>k__BackingField: {x: 2, y: 5}
+    <IsConnector>k__BackingField: 0
+  elementsAmount: 100
