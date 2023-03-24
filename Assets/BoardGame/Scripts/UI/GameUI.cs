@@ -22,15 +22,10 @@ namespace BoardGame.UI
 
         private Coroutine disappearStatusTextCoroutine;
 
-        public void Initialize(UnityAction diceButtonClicked, bool isStatusTextActive)
+        public void Initialize(UnityAction diceButtonClicked)
         {
             diceButton.onClick.AddListener(diceButtonClicked);
-            SetStatusActive(isStatusTextActive);
-        }
-
-        private void OnDestroy()
-        {
-            Clear();
+            SetStatusActive(false);
         }
 
         public void Clear()
@@ -55,6 +50,11 @@ namespace BoardGame.UI
 
         private void SetStatusActive(bool value)
         {
+            if (statusText.gameObject.activeSelf == value)
+            {
+                return;
+            }
+
             statusText.gameObject.SetActive(value);
         }
 

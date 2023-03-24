@@ -19,17 +19,16 @@ namespace BoardGame
         [SerializeField]
         private int diceRange = MinDiceRange;
 
-        public void Start()
+        private void Start()
         {
-            UI.Initialize(OnDiceButtonClicked, false);
-            board.Initialize();
-            board.HasPlayerReachedLastCell += HasPlayerReachedLastCellOnBoard;
+            UI.Initialize(OnDiceButtonClicked);
+            board.Initialize(HasPlayerReachedLastCell);
         }
 
-        public void Clear()
+        private void OnDestroy()
         {
             UI.Clear();
-            board.HasPlayerReachedLastCell -= HasPlayerReachedLastCellOnBoard;
+            board.Clear();
         }
 
         private int RollDice()
@@ -46,9 +45,10 @@ namespace BoardGame
             board.MovePlayerOnCells(pips);
         }
 
-        private void HasPlayerReachedLastCellOnBoard()
+        private void HasPlayerReachedLastCell()
         {
             Debug.Log("HasPlayerReachedLastCellOnBoard");
+            // UI.ShowWinScreen();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace BoardGame
 {
     public class Board : MonoBehaviour
     {
-        public event Action HasPlayerReachedLastCell;
+        private event Action HasPlayerReachedLastCell;
 
         [SerializeField]
         private Transform cellsParent;
@@ -19,10 +19,16 @@ namespace BoardGame
 
         private int cellWithPlayerIndex;
 
-        public void Initialize()
+        public void Initialize(Action hasPlayerReachedLastCell)
         {
             cells = GetCells();
             SetPlayerToCell(player, 0);
+            HasPlayerReachedLastCell += hasPlayerReachedLastCell;
+        }
+
+        public void Clear()
+        {
+            HasPlayerReachedLastCell = null;
         }
 
         public void MovePlayerOnCells(int count)
@@ -100,6 +106,11 @@ namespace BoardGame
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SetPlayerToCell(player, 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                SetPlayerToCell(player, cells.Count - 1);
             }
         }
 
