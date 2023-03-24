@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace BoardGame
@@ -15,15 +14,12 @@ namespace BoardGame
 
         private List<Cell> cells;
 
-        private Dictionary<Player, Cell> playerToCell;
+        private int cellWithPlayerIndex;
 
         public void Initialize()
         {
-            playerToCell = new Dictionary<Player, Cell>();
-
             cells = GetCells();
-
-            SetPlayerToCell(player, cells.FirstOrDefault());
+            SetPlayerToCell(player, 0);
         }
 
         public void MovePlayerOnCells(int count)
@@ -31,56 +27,31 @@ namespace BoardGame
             MovePlayerOnCells(player, count);
         }
 
-        private void MovePlayerOnCells(Player player, int count)
+        private void SetPlayerToCell(Player player, int index)
         {
-            if (playerToCell == null)
+            if (player == null)
             {
                 return;
             }
 
-            var cell = playerToCell.GetValueOrDefault(player);
-
-            if (cell == null)
-            {
-                return;
-            }
-
-            var nextCellIndex = cells.IndexOf(cell) + count;
-            var allCellsIndex = cells.Count - 1;
-
-            if (nextCellIndex < 0 || nextCellIndex > allCellsIndex)
-            {
-                return;
-            }
-
-            var nextCell = cells[nextCellIndex];
-
-            playerToCell[player] = nextCell;
-
-            // A View code.
-            player.transform.position = nextCell.transform.position;
-            player.transform.rotation = nextCell.transform.rotation;
-        }
-
-        private void SetPlayerToCell(Player player, Cell cell)
-        {
-            if (cell == null || playerToCell == null)
-            {
-                return;
-            }
-
-            if (playerToCell.ContainsKey(player))
-            {
-                playerToCell[player] = cell;
-            }
-            else
-            {
-                playerToCell.Add(player, cell);
-            }
+            cellWithPlayerIndex = index;
+            var cell = cells[index];
 
             // A View code.
             player.transform.position = cell.transform.position;
             player.transform.rotation = cell.transform.rotation;
+        }
+
+        private void MovePlayerOnCells(Player player, int count)
+        {
+            var nextCellIndex = cellWithPlayerIndex + count;
+
+            if (nextCellIndex < 0 || nextCellIndex > cells.Count - 1)
+            {
+                return;
+            }
+
+            SetPlayerToCell(player, nextCellIndex);
         }
 
         private List<Cell> GetCells()
@@ -103,6 +74,7 @@ namespace BoardGame
             return cells;
         }
 
+#if UNITY_EDITOR
         #region DEBUG
 
         private void Update()
@@ -119,14 +91,12 @@ namespace BoardGame
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                SetPlayerToCell(player, cells[0]);
+                SetPlayerToCell(player, 0);
             }
         }
 
         #endregion
 
-
-#if UNITY_EDITOR
         [Button]
         private void NumerateCells()
         {
@@ -153,7 +123,7 @@ namespace BoardGame
                 number++;
             }
 
-            Debug.Log($"Cells has been successfully renamed.");
+            Debug.Log($"Cells has been successfully numerated.");
         }
 #endif
     }
