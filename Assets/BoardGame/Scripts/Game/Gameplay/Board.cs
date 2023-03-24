@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace BoardGame
 {
     public class Board : MonoBehaviour
     {
+        public event Action HasPlayerReachedLastCell;
+
         [SerializeField]
         private Transform cellsParent;
 
@@ -34,24 +37,29 @@ namespace BoardGame
                 return;
             }
 
-            cellWithPlayerIndex = index;
-            var cell = cells[index];
+            var lastCellIndex = cells.Count - 1;
 
-            // A View code.
-            player.transform.position = cell.transform.position;
-            player.transform.rotation = cell.transform.rotation;
-        }
-
-        private void MovePlayerOnCells(Player player, int count)
-        {
-            var nextCellIndex = cellWithPlayerIndex + count;
-
-            if (nextCellIndex < 0 || nextCellIndex > cells.Count - 1)
+            if (index < 0 || index > lastCellIndex)
             {
                 return;
             }
 
-            SetPlayerToCell(player, nextCellIndex);
+            cellWithPlayerIndex = index;
+
+            // A View code.
+            var cell = cells[index];
+            player.transform.position = cell.transform.position;
+            player.transform.rotation = cell.transform.rotation;
+
+            if (index == lastCellIndex)
+            {
+                HasPlayerReachedLastCell?.Invoke();
+            }
+        }
+
+        private void MovePlayerOnCells(Player player, int count)
+        {
+            SetPlayerToCell(player, cellWithPlayerIndex + count);
         }
 
         private List<Cell> GetCells()

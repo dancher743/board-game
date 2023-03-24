@@ -23,11 +23,13 @@ namespace BoardGame
         {
             UI.Initialize(OnDiceButtonClicked, false);
             board.Initialize();
+            board.HasPlayerReachedLastCell += HasPlayerReachedLastCellOnBoard;
         }
 
         public void Clear()
         {
             UI.Clear();
+            board.HasPlayerReachedLastCell -= HasPlayerReachedLastCellOnBoard;
         }
 
         private int RollDice()
@@ -42,6 +44,11 @@ namespace BoardGame
 
             UI.SetStatus(string.Format(StatusText, pips));
             board.MovePlayerOnCells(pips);
+        }
+
+        private void HasPlayerReachedLastCellOnBoard()
+        {
+            Debug.Log("HasPlayerReachedLastCellOnBoard");
         }
     }
 }
