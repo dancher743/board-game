@@ -20,6 +20,10 @@ namespace BoardGame.UI
         [SerializeField]
         private float DisappearStatusTextTime = 1f;
 
+        [Header("Screens")]
+        [SerializeField]
+        private GameObject gameOverScreen;
+
         private Coroutine disappearStatusTextCoroutine;
 
         public void Initialize(UnityAction diceButtonClicked)
@@ -46,6 +50,11 @@ namespace BoardGame.UI
             SetStatusActive(true);
 
             disappearStatusTextCoroutine = StartCoroutine(DisappearStatusTextRoutine());
+        }
+
+        public void ShowGameOverScreen()
+        {
+            Instantiate(gameOverScreen, transform);
         }
 
         private void SetStatusActive(bool value)

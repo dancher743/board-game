@@ -47,8 +47,7 @@ namespace BoardGame
 
         private void HasPlayerReachedLastCell()
         {
-            Debug.Log("HasPlayerReachedLastCellOnBoard");
-            // UI.ShowWinScreen();
+            UI.ShowGameOverScreen();
         }
     }
 }

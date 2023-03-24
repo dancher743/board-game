@@ -38,7 +38,7 @@ namespace BoardGame
 
         private void SetPlayerToCell(Player player, int index)
         {
-            if (player == null)
+            if (player == null || cellWithPlayerIndex == index)
             {
                 return;
             }
