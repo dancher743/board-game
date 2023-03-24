@@ -36,7 +36,7 @@ namespace BoardGame.Utils
             generatedCellsParent.transform.SetParent(transform);
 
             var wasPreviousElementConnector = false;
-            var i2 = 0;
+            var previousElementPosition = Vector3.zero;
 
             while (totalCount > 0)
             {
@@ -50,7 +50,9 @@ namespace BoardGame.Utils
                 }
                 else
                 {
-                    boardElement = elements[Random.Range(0, elements.Length)];
+                    var boardElements = elements.Where(part => part.IsConnector);
+                    var boardCount = boardElements.Count();
+                    boardElement = boardElements.ElementAt(Random.Range(0, boardCount));
                 }
 
                 var count = Random.Range(boardElement.RandomCount.x, boardElement.RandomCount.y);
@@ -58,8 +60,8 @@ namespace BoardGame.Utils
                 for (int i = 0; i < count; i++)
                 {
                     var element = Instantiate(boardElement.Prefab, generatedCellsParent.transform);
-                    element.transform.position += element.transform.forward.normalized * i2;
-                    i2++;
+                    element.transform.position = previousElementPosition;
+                    previousElementPosition = element.transform.position + element.transform.forward;
                 }
 
                 totalCount -= count;
