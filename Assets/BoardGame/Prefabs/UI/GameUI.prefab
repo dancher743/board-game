@@ -510,4 +510,4 @@ MonoBehaviour:
   diceButton: {fileID: 4730531378888367867}
   statusText: {fileID: 7632070717088362532}
   DisappearStatusTextTime: 1.5
-  gameOverScreen: {fileID: 3740741089850868890, guid: 29ce79f02fbad4d45b5254b9c206a136, type: 3}
+  gameOverScreenPrefab: {fileID: 694068051367635133, guid: 29ce79f02fbad4d45b5254b9c206a136, type: 3}
