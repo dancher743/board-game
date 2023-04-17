@@ -1,3 +1,5 @@
+using BoardGame.UI.Screens;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -20,24 +22,29 @@ namespace BoardGame.UI
         [SerializeField]
         private float DisappearStatusTextTime = 1f;
 
+        [Header("Screens")]
+        [SerializeField]
+        private GameOverScreen gameOverScreenPrefab;
+
+        private GameOverScreen gameOverScreen;
         private Coroutine disappearStatusTextCoroutine;
 
-        public void Initialize(UnityAction diceButtonClicked, bool isStatusTextActive)
+        public void Initialize(UnityAction diceButtonClicked)
         {
             diceButton.onClick.AddListener(diceButtonClicked);
-            SetStatusActive(isStatusTextActive);
+            SetStatusActive(false);
         }
 
-        private void OnDestroy()
+        public void Reset()
         {
-            Clear();
-        }
+            if (!Application.isPlaying)
+            {
+                return;
+            }
 
-        public void Clear()
-        {
             StopAllCoroutines();
-            statusText.text = string.Empty;
-            diceButton.onClick.RemoveAllListeners();
+            SetStatusActive(false);
+            RemoveGameOverScreen();
         }
 
         public void SetStatus(string text)
@@ -53,8 +60,30 @@ namespace BoardGame.UI
             disappearStatusTextCoroutine = StartCoroutine(DisappearStatusTextRoutine());
         }
 
+        public void ShowGameOverScreen(Action restartButtonClicked)
+        {
+            gameOverScreen = Instantiate(gameOverScreenPrefab, transform);
+            gameOverScreen.RestartButtonClicked += restartButtonClicked;
+        }
+
+        private void RemoveGameOverScreen()
+        {
+            if (gameOverScreen == null)
+            {
+                return;
+            }
+
+            Destroy(gameOverScreen.gameObject);
+            gameOverScreen = null;
+        }
+
         private void SetStatusActive(bool value)
         {
+            if (statusText.gameObject.activeSelf == value)
+            {
+                return;
+            }
+
             statusText.gameObject.SetActive(value);
         }
 

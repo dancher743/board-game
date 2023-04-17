@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace BoardGame
 {
     public class Board : MonoBehaviour
     {
+        private event Action HasPlayerReachedLastCell;
+
         [SerializeField]
         private Transform cellsParent;
 
@@ -16,10 +19,11 @@ namespace BoardGame
 
         private int cellWithPlayerIndex;
 
-        public void Initialize()
+        public void Initialize(Action hasPlayerReachedLastCell)
         {
             cells = GetCells();
             SetPlayerToCell(player, 0);
+            HasPlayerReachedLastCell += hasPlayerReachedLastCell;
         }
 
         public void MovePlayerOnCells(int count)
@@ -27,31 +31,41 @@ namespace BoardGame
             MovePlayerOnCells(player, count);
         }
 
+        public void ResetPlayerPosition()
+        {
+            SetPlayerToCell(player, 0);
+        }
+
         private void SetPlayerToCell(Player player, int index)
         {
-            if (player == null)
+            if (player == null || cellWithPlayerIndex == index)
+            {
+                return;
+            }
+
+            var lastCellIndex = cells.Count - 1;
+
+            if (index < 0 || index > lastCellIndex)
             {
                 return;
             }
 
             cellWithPlayerIndex = index;
-            var cell = cells[index];
 
             // A View code.
+            var cell = cells[index];
             player.transform.position = cell.transform.position;
             player.transform.rotation = cell.transform.rotation;
+
+            if (index == lastCellIndex)
+            {
+                HasPlayerReachedLastCell?.Invoke();
+            }
         }
 
         private void MovePlayerOnCells(Player player, int count)
         {
-            var nextCellIndex = cellWithPlayerIndex + count;
-
-            if (nextCellIndex < 0 || nextCellIndex > cells.Count - 1)
-            {
-                return;
-            }
-
-            SetPlayerToCell(player, nextCellIndex);
+            SetPlayerToCell(player, cellWithPlayerIndex + count);
         }
 
         private List<Cell> GetCells()
@@ -92,6 +106,11 @@ namespace BoardGame
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SetPlayerToCell(player, 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                SetPlayerToCell(player, cells.Count - 1);
             }
         }
 

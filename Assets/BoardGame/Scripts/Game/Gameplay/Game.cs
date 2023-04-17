@@ -19,15 +19,21 @@ namespace BoardGame
         [SerializeField]
         private int diceRange = MinDiceRange;
 
-        public void Start()
+        private void Start()
         {
-            UI.Initialize(OnDiceButtonClicked, false);
-            board.Initialize();
+            UI.Initialize(OnDiceButtonClicked);
+            board.Initialize(Finish);
         }
 
-        public void Clear()
+        private void Finish()
         {
-            UI.Clear();
+            UI.ShowGameOverScreen(Restart);
+        }
+
+        private void Restart()
+        {
+            UI.Reset();
+            board.ResetPlayerPosition();
         }
 
         private int RollDice()
