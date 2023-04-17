@@ -26,14 +26,14 @@ namespace BoardGame
             HasPlayerReachedLastCell += hasPlayerReachedLastCell;
         }
 
-        public void Clear()
-        {
-            HasPlayerReachedLastCell = null;
-        }
-
         public void MovePlayerOnCells(int count)
         {
             MovePlayerOnCells(player, count);
+        }
+
+        public void ResetPlayerPosition()
+        {
+            SetPlayerToCell(player, 0);
         }
 
         private void SetPlayerToCell(Player player, int index)

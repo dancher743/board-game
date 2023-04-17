@@ -1,3 +1,5 @@
+using BoardGame.UI.Screens;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -22,8 +24,9 @@ namespace BoardGame.UI
 
         [Header("Screens")]
         [SerializeField]
-        private GameObject gameOverScreen;
+        private GameOverScreen gameOverScreenPrefab;
 
+        private GameOverScreen gameOverScreen;
         private Coroutine disappearStatusTextCoroutine;
 
         public void Initialize(UnityAction diceButtonClicked)
@@ -32,11 +35,16 @@ namespace BoardGame.UI
             SetStatusActive(false);
         }
 
-        public void Clear()
+        public void Reset()
         {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
             StopAllCoroutines();
-            statusText.text = string.Empty;
-            diceButton.onClick.RemoveAllListeners();
+            SetStatusActive(false);
+            RemoveGameOverScreen();
         }
 
         public void SetStatus(string text)
@@ -52,9 +60,21 @@ namespace BoardGame.UI
             disappearStatusTextCoroutine = StartCoroutine(DisappearStatusTextRoutine());
         }
 
-        public void ShowGameOverScreen()
+        public void ShowGameOverScreen(Action restartButtonClicked)
         {
-            Instantiate(gameOverScreen, transform);
+            gameOverScreen = Instantiate(gameOverScreenPrefab, transform);
+            gameOverScreen.RestartButtonClicked += restartButtonClicked;
+        }
+
+        private void RemoveGameOverScreen()
+        {
+            if (gameOverScreen == null)
+            {
+                return;
+            }
+
+            Destroy(gameOverScreen.gameObject);
+            gameOverScreen = null;
         }
 
         private void SetStatusActive(bool value)

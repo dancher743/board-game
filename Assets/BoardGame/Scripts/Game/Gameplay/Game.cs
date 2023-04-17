@@ -22,13 +22,18 @@ namespace BoardGame
         private void Start()
         {
             UI.Initialize(OnDiceButtonClicked);
-            board.Initialize(HasPlayerReachedLastCell);
+            board.Initialize(Finish);
         }
 
-        private void OnDestroy()
+        private void Finish()
         {
-            UI.Clear();
-            board.Clear();
+            UI.ShowGameOverScreen(Restart);
+        }
+
+        private void Restart()
+        {
+            UI.Reset();
+            board.ResetPlayerPosition();
         }
 
         private int RollDice()
@@ -43,11 +48,6 @@ namespace BoardGame
 
             UI.SetStatus(string.Format(StatusText, pips));
             board.MovePlayerOnCells(pips);
-        }
-
-        private void HasPlayerReachedLastCell()
-        {
-            UI.ShowGameOverScreen();
         }
     }
 }
