@@ -33,6 +33,7 @@ namespace BoardGame
         private void Restart()
         {
             UI.Reset();
+            board.RegenerateCells();
             board.ResetPlayerPosition();
         }
 
