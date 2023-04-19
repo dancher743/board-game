@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 3641744326530350913}
   - component: {fileID: 7490924625595426083}
   - component: {fileID: 4730531378888367867}
+  - component: {fileID: 9055801154784468677}
   m_Layer: 5
   m_Name: DiceButton
   m_TagString: Untagged
@@ -457,6 +458,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &9055801154784468677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8586781191510946074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8819901759432105465
 GameObject:
   m_ObjectHideFlags: 0
