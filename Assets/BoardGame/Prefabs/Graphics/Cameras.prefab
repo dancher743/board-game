@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 8181059643239910581}
   - component: {fileID: 7271310755085619565}
   - component: {fileID: 6411843525614026888}
+  - component: {fileID: 8425860246427070419}
   m_Layer: 0
   m_Name: MainCameraContainer
   m_TagString: Untagged
@@ -252,3 +253,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   smoothTime: 0.25
+--- !u!114 &8425860246427070419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088905753211237430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b62fd63d72f634b90acb6372fa05ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 5172110613242422671}
+  colors:
+  - {r: 0.92549026, g: 0.86274517, b: 0.7725491, a: 1}
+  - {r: 0.9294118, g: 0.8470589, b: 0.7254902, a: 1}
+  - {r: 0.8941177, g: 0.8196079, b: 0.6627451, a: 1}
+  - {r: 0.8352942, g: 0.7411765, b: 0.6, a: 1}
+  - {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
+  - {r: 0.70980394, g: 0.69411767, b: 0.6509804, a: 1}
+  - {r: 0.5294118, g: 0.6901961, b: 0.8705883, a: 1}
+  - {r: 0.4431373, g: 0.7843138, b: 0.86274517, a: 1}
+  - {r: 0.9921569, g: 0.8196079, b: 0.5647059, a: 1}
+  - {r: 0.73333335, g: 0.854902, b: 0.5921569, a: 1}
+  - {r: 0.49803925, g: 0.8078432, b: 0.7960785, a: 1}
+  - {r: 0.6901961, g: 0.654902, b: 0.8235295, a: 1}
+  - {r: 0.9490197, g: 0.7372549, b: 0.59607846, a: 1}
+  - {r: 0.9568628, g: 0.7058824, b: 0.60784316, a: 1}
+  - {r: 0.96470594, g: 0.61960787, b: 0.6156863, a: 1}
+  - {r: 0.97647065, g: 0.70980394, b: 0.7607844, a: 1}
+  lerpDelta: 0.0015
