@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellsParent: {fileID: 3810603107688749161}
   player: {fileID: 0}
+  cellsGenerator: {fileID: 406585988716547443}
 --- !u!1 &8052424589001403542
 GameObject:
   m_ObjectHideFlags: 0

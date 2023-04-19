@@ -1,3 +1,4 @@
+using BoardGame.Utils;
 using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,25 @@ namespace BoardGame
         [SerializeField]
         private Player player;
 
+        [SerializeField]
+        private CellsGenerator cellsGenerator;
+
         private List<Cell> cells;
 
         private int cellWithPlayerIndex;
 
         public void Initialize(Action hasPlayerReachedLastCell)
         {
-            cells = GetCells();
+            GenerateCells();
             SetPlayerToCell(player, 0);
             HasPlayerReachedLastCell += hasPlayerReachedLastCell;
+        }
+
+        public void GenerateCells()
+        {
+            cellsGenerator.Generate();
+            NumerateCells();
+            cells = GetCells();
         }
 
         public void MovePlayerOnCells(int count)
