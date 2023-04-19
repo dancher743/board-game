@@ -25,12 +25,12 @@ namespace BoardGame
 
         public void Initialize(Action hasPlayerReachedLastCell)
         {
-            GenerateCells();
+            cells = GetCells();
             SetPlayerToCell(player, 0);
             HasPlayerReachedLastCell += hasPlayerReachedLastCell;
         }
 
-        public void GenerateCells()
+        public void RegenerateCells()
         {
             cellsGenerator.Generate();
             NumerateCells();
@@ -40,11 +40,6 @@ namespace BoardGame
         public void MovePlayerOnCells(int count)
         {
             MovePlayerOnCells(player, count);
-        }
-
-        public void ResetPlayerPosition()
-        {
-            SetPlayerToCell(player, 0);
         }
 
         private void SetPlayerToCell(Player player, int index)
@@ -77,6 +72,11 @@ namespace BoardGame
         private void MovePlayerOnCells(Player player, int count)
         {
             SetPlayerToCell(player, cellWithPlayerIndex + count);
+        }
+
+        public void ResetPlayerPosition()
+        {
+            SetPlayerToCell(player, 0);
         }
 
         private List<Cell> GetCells()
