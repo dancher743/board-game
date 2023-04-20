@@ -34,7 +34,7 @@ namespace BoardGame
         {
             UI.Reset();
             board.RegenerateCells();
-            board.ResetPlayerPosition();
+            board.SetPlayerToFirstCell();
         }
 
         private int RollDice()
@@ -45,10 +45,14 @@ namespace BoardGame
 
         private void OnDiceButtonClicked()
         {
-            var pips = RollDice();
+            if (board.IsMovementInProgress)
+            {
+                return;
+            }
 
-            UI.SetStatus(string.Format(StatusText, pips));
-            board.MovePlayerOnCells(pips);
+            var roll = RollDice();
+            UI.SetStatus(string.Format(StatusText, roll));
+            board.MovePlayerOnCells(roll);
         }
     }
 }
