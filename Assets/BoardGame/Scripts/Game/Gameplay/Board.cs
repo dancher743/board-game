@@ -10,6 +10,8 @@ namespace BoardGame
     public class Board : MonoBehaviour
     {
         private event Action HasPlayerReachedLastCell;
+        public event Action PlayerMovementStarted;
+        public event Action PlayerMovementEnded;
 
         [SerializeField]
         private Transform cellsParent;
@@ -22,8 +24,6 @@ namespace BoardGame
 
         [SerializeField]
         private float PlayerMovementInterval;
-
-        public bool IsMovementInProgress => movePlayerCoroutine != null;
 
         private List<Cell> cells;
         private int cellWithPlayerIndex;
@@ -45,12 +45,13 @@ namespace BoardGame
 
         public void MovePlayerOnCells(int count)
         {
-            if (IsMovementInProgress)
+            if (movePlayerCoroutine != null)
             {
                 return;
             }
 
             movePlayerCoroutine = StartCoroutine(MovePlayerRoutine(count));
+            PlayerMovementStarted?.Invoke();
 
             IEnumerator MovePlayerRoutine(int cellCount)
             {
@@ -64,6 +65,7 @@ namespace BoardGame
                 }
 
                 movePlayerCoroutine = null;
+                PlayerMovementEnded?.Invoke();
             }
         }
 
