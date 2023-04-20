@@ -1,4 +1,5 @@
 using BoardGame.UI;
+using System;
 using UnityEngine;
 
 namespace BoardGame
@@ -23,6 +24,9 @@ namespace BoardGame
         {
             UI.Initialize(OnDiceButtonClicked);
             board.Initialize(Finish);
+
+            board.PlayerMovementStarted += OnPlayerMovementStarted;
+            board.PlayerMovementEnded += OnPlayerMovementEnded;
         }
 
         private void Finish()
@@ -34,21 +38,36 @@ namespace BoardGame
         {
             UI.Reset();
             board.RegenerateCells();
-            board.ResetPlayerPosition();
+            board.SetPlayerToFirstCell();
+        }
+
+        public void OnDestroy()
+        {
+            board.PlayerMovementStarted -= OnPlayerMovementStarted;
+            board.PlayerMovementEnded -= OnPlayerMovementEnded;
         }
 
         private int RollDice()
         {
             var exclusiveValue = 1;
-            return Random.Range(MinDiceRange, diceRange + exclusiveValue);
+            return UnityEngine.Random.Range(MinDiceRange, diceRange + exclusiveValue);
         }
 
         private void OnDiceButtonClicked()
         {
-            var pips = RollDice();
+            var roll = RollDice();
+            UI.SetStatus(string.Format(StatusText, roll));
+            board.MovePlayerOnCells(roll);
+        }
 
-            UI.SetStatus(string.Format(StatusText, pips));
-            board.MovePlayerOnCells(pips);
+        private void OnPlayerMovementStarted()
+        {
+            UI.SetDiceButtonInteractable(false);
+        }
+
+        private void OnPlayerMovementEnded()
+        {
+            UI.SetDiceButtonInteractable(true);
         }
     }
 }

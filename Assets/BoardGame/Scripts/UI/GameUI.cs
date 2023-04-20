@@ -87,6 +87,11 @@ namespace BoardGame.UI
             statusText.gameObject.SetActive(value);
         }
 
+        public void SetDiceButtonInteractable(bool value)
+        {
+            diceButton.interactable = value;
+        }
+
         private IEnumerator DisappearStatusTextRoutine()
         {
             yield return new WaitForSeconds(DisappearStatusTextTime);
