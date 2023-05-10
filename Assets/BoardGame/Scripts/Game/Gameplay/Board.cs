@@ -1,5 +1,4 @@
-using BoardGame.Utils;
-using NaughtyAttributes;
+using BoardGame.Utils.CellsGeneration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,16 +8,18 @@ namespace BoardGame
 {
     public class Board : MonoBehaviour
     {
-        private event Action HasPlayerReachedLastCell;
+        public event Action PlayerLastCellReached;
         public event Action PlayerMovementStarted;
         public event Action PlayerMovementEnded;
 
+        [Header("Cells")]
         [SerializeField]
         private Transform cellsParent;
 
         [SerializeField]
         private CellsGenerator cellsGenerator;
 
+        [Header("Player")]
         [SerializeField]
         private Player player;
 
@@ -26,21 +27,19 @@ namespace BoardGame
         private float PlayerMovementInterval;
 
         private List<Cell> cells;
-        private int cellWithPlayerIndex;
+        private int currentCellWithPlayerIndex;
         private Coroutine movePlayerCoroutine;
 
-        public void Initialize(Action hasPlayerReachedLastCell)
+        public void Initialize()
         {
-            cells = GetCells();
-            SetPlayerToCell(0);
-            HasPlayerReachedLastCell += hasPlayerReachedLastCell;
+            cells = cellsParent.childCount > 0 ? GetCells() : cellsGenerator.Generate();
+            SetPlayerToFirstCell();
         }
 
-        public void RegenerateCells()
+        public void Regenerate()
         {
-            cellsGenerator.Generate();
-            NumerateCells();
-            cells = GetCells();
+            cells = cellsGenerator.Generate();
+            SetPlayerToFirstCell();
         }
 
         public void MovePlayerOnCells(int count)
@@ -52,21 +51,6 @@ namespace BoardGame
 
             movePlayerCoroutine = StartCoroutine(MovePlayerRoutine(count));
             PlayerMovementStarted?.Invoke();
-
-            IEnumerator MovePlayerRoutine(int cellCount)
-            {
-                var deltaIndex = 1 * (int)Mathf.Sign(cellCount);
-                var count = Mathf.Abs(cellCount);
-
-                for (int i = 0; i < count; i++)
-                {
-                    SetPlayerToCell(cellWithPlayerIndex + deltaIndex);
-                    yield return new WaitForSeconds(PlayerMovementInterval);
-                }
-
-                movePlayerCoroutine = null;
-                PlayerMovementEnded?.Invoke();
-            }
         }
 
         public void SetPlayerToFirstCell()
@@ -76,7 +60,7 @@ namespace BoardGame
 
         private void SetPlayerToCell(int index)
         {
-            if (player == null || cellWithPlayerIndex == index)
+            if (player == null || currentCellWithPlayerIndex == index)
             {
                 return;
             }
@@ -88,16 +72,15 @@ namespace BoardGame
                 return;
             }
 
-            cellWithPlayerIndex = index;
+            currentCellWithPlayerIndex = index;
 
-            // A View code.
             var cell = cells[index];
             player.transform.position = cell.transform.position;
             player.transform.rotation = cell.transform.rotation;
 
             if (index == lastCellIndex)
             {
-                HasPlayerReachedLastCell?.Invoke();
+                PlayerLastCellReached?.Invoke();
             }
         }
 
@@ -121,6 +104,20 @@ namespace BoardGame
             return cells;
         }
 
+        private IEnumerator MovePlayerRoutine(int cellCount)
+        {
+            var delta = (int)Mathf.Sign(cellCount);
+
+            for (int i = 0; i < Mathf.Abs(cellCount); i++)
+            {
+                SetPlayerToCell(currentCellWithPlayerIndex + delta);
+                yield return new WaitForSeconds(PlayerMovementInterval);
+            }
+
+            movePlayerCoroutine = null;
+            PlayerMovementEnded?.Invoke();
+        }
+
 #if UNITY_EDITOR
         #region DEBUG
 
@@ -128,12 +125,12 @@ namespace BoardGame
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                SetPlayerToCell(cellWithPlayerIndex + 1);
+                SetPlayerToCell(currentCellWithPlayerIndex + 1);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                SetPlayerToCell(cellWithPlayerIndex - 1);
+                SetPlayerToCell(currentCellWithPlayerIndex - 1);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
@@ -148,35 +145,6 @@ namespace BoardGame
         }
 
         #endregion
-
-        [Button]
-        private void NumerateCells()
-        {
-            int number = 1;
-
-            var cells = transform.Find("Cells");
-
-            if (cells == null)
-            {
-                Debug.LogError("Cells are not found.");
-                return;
-            }
-
-            foreach (Transform cell in cells)
-            {
-                cell.name = $"Cell{number}";
-                var cellText = cell.GetComponentInChildren<TextMesh>();
-
-                if (cellText != null)
-                {
-                    cellText.text = number.ToString();
-                }
-
-                number++;
-            }
-
-            Debug.Log($"Cells has been successfully numerated.");
-        }
 #endif
     }
 }

@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Core.Utils
@@ -6,6 +7,7 @@ namespace Core.Utils
     {
         private readonly Vector3 isometricVector = new Vector3(30f, 40f, 0f);
 
+        [Button]
         public void Orient()
         {
             transform.rotation = Quaternion.Euler(isometricVector);
