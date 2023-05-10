@@ -26,7 +26,7 @@ namespace BoardGame
         private float PlayerMovementInterval;
 
         private List<Cell> cells;
-        private int cellWithPlayerIndex;
+        private int currentCellWithPlayerIndex;
         private Coroutine movePlayerCoroutine;
 
         public void Initialize()
@@ -51,21 +51,6 @@ namespace BoardGame
 
             movePlayerCoroutine = StartCoroutine(MovePlayerRoutine(count));
             PlayerMovementStarted?.Invoke();
-
-            IEnumerator MovePlayerRoutine(int cellCount)
-            {
-                var deltaIndex = 1 * (int)Mathf.Sign(cellCount);
-                var count = Mathf.Abs(cellCount);
-
-                for (int i = 0; i < count; i++)
-                {
-                    SetPlayerToCell(cellWithPlayerIndex + deltaIndex);
-                    yield return new WaitForSeconds(PlayerMovementInterval);
-                }
-
-                movePlayerCoroutine = null;
-                PlayerMovementEnded?.Invoke();
-            }
         }
 
         public void SetPlayerToFirstCell()
@@ -75,7 +60,7 @@ namespace BoardGame
 
         private void SetPlayerToCell(int index)
         {
-            if (player == null || cellWithPlayerIndex == index)
+            if (player == null || currentCellWithPlayerIndex == index)
             {
                 return;
             }
@@ -87,9 +72,8 @@ namespace BoardGame
                 return;
             }
 
-            cellWithPlayerIndex = index;
+            currentCellWithPlayerIndex = index;
 
-            // A View code.
             var cell = cells[index];
             player.transform.position = cell.transform.position;
             player.transform.rotation = cell.transform.rotation;
@@ -120,6 +104,20 @@ namespace BoardGame
             return cells;
         }
 
+        private IEnumerator MovePlayerRoutine(int cellCount)
+        {
+            var delta = (int)Mathf.Sign(cellCount);
+
+            for (int i = 0; i < Mathf.Abs(cellCount); i++)
+            {
+                SetPlayerToCell(currentCellWithPlayerIndex + delta);
+                yield return new WaitForSeconds(PlayerMovementInterval);
+            }
+
+            movePlayerCoroutine = null;
+            PlayerMovementEnded?.Invoke();
+        }
+
 #if UNITY_EDITOR
         #region DEBUG
 
@@ -127,12 +125,12 @@ namespace BoardGame
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                SetPlayerToCell(cellWithPlayerIndex + 1);
+                SetPlayerToCell(currentCellWithPlayerIndex + 1);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                SetPlayerToCell(cellWithPlayerIndex - 1);
+                SetPlayerToCell(currentCellWithPlayerIndex - 1);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
