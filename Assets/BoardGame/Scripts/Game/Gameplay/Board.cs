@@ -9,7 +9,7 @@ namespace BoardGame
 {
     public class Board : MonoBehaviour
     {
-        private event Action HasPlayerReachedLastCell;
+        public event Action PlayerLastCellReached;
         public event Action PlayerMovementStarted;
         public event Action PlayerMovementEnded;
 
@@ -29,11 +29,10 @@ namespace BoardGame
         private int cellWithPlayerIndex;
         private Coroutine movePlayerCoroutine;
 
-        public void Initialize(Action hasPlayerReachedLastCell)
+        public void Initialize()
         {
             cells = GetCells();
             SetPlayerToCell(0);
-            HasPlayerReachedLastCell += hasPlayerReachedLastCell;
         }
 
         public void RegenerateCells()
@@ -97,7 +96,7 @@ namespace BoardGame
 
             if (index == lastCellIndex)
             {
-                HasPlayerReachedLastCell?.Invoke();
+                PlayerLastCellReached?.Invoke();
             }
         }
 

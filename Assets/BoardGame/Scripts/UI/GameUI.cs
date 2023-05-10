@@ -10,6 +10,8 @@ namespace BoardGame.UI
 {
     public class GameUI : MonoBehaviour
     {
+        public event Action DiceButtonClicked;
+
         [Header("Dice button")]
         [SerializeField]
         private Button diceButton;
@@ -29,9 +31,9 @@ namespace BoardGame.UI
         private GameOverScreen gameOverScreen;
         private Coroutine disappearStatusTextCoroutine;
 
-        public void Initialize(UnityAction diceButtonClicked)
+        public void Initialize()
         {
-            diceButton.onClick.AddListener(diceButtonClicked);
+            diceButton.onClick.AddListener(() => DiceButtonClicked?.Invoke());
             SetStatusActive(false);
         }
 
@@ -45,6 +47,11 @@ namespace BoardGame.UI
             StopAllCoroutines();
             SetStatusActive(false);
             RemoveGameOverScreen();
+        }
+
+        private void OnDestroy()
+        {
+            diceButton.onClick.RemoveAllListeners();
         }
 
         public void SetStatus(string text)

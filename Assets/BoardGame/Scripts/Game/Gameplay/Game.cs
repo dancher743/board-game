@@ -22,11 +22,13 @@ namespace BoardGame
 
         private void Start()
         {
-            UI.Initialize(OnDiceButtonClicked);
-            board.Initialize(Finish);
+            UI.Initialize();
+            UI.DiceButtonClicked += OnDiceButtonClicked;
 
+            board.Initialize();
             board.PlayerMovementStarted += OnPlayerMovementStarted;
             board.PlayerMovementEnded += OnPlayerMovementEnded;
+            board.PlayerLastCellReached += OnPlayerLastCellReached;
         }
 
         private void Finish()
@@ -43,6 +45,8 @@ namespace BoardGame
 
         public void OnDestroy()
         {
+            UI.DiceButtonClicked -= OnDiceButtonClicked;
+            board.PlayerMovementStarted -= OnPlayerMovementStarted;
             board.PlayerMovementStarted -= OnPlayerMovementStarted;
             board.PlayerMovementEnded -= OnPlayerMovementEnded;
         }
@@ -68,6 +72,11 @@ namespace BoardGame
         private void OnPlayerMovementEnded()
         {
             UI.SetDiceButtonInteractable(true);
+        }
+
+        private void OnPlayerLastCellReached()
+        {
+            Finish();
         }
     }
 }
