@@ -85,11 +85,6 @@ namespace BoardGame.UI
 
         private void SetStatusActive(bool value)
         {
-            if (statusText.gameObject.activeSelf == value)
-            {
-                return;
-            }
-
             statusText.gameObject.SetActive(value);
         }
 
@@ -101,7 +96,6 @@ namespace BoardGame.UI
         private IEnumerator DisappearStatusTextRoutine()
         {
             yield return new WaitForSeconds(DisappearStatusTextTime);
-
             SetStatusActive(false);
         }
     }

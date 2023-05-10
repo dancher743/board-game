@@ -12,12 +12,14 @@ namespace BoardGame
         public event Action PlayerMovementStarted;
         public event Action PlayerMovementEnded;
 
+        [Header("Cells")]
         [SerializeField]
         private Transform cellsParent;
 
         [SerializeField]
         private CellsGenerator cellsGenerator;
 
+        [Header("Player")]
         [SerializeField]
         private Player player;
 
