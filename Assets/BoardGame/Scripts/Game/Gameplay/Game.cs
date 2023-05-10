@@ -39,8 +39,7 @@ namespace BoardGame
         private void Restart()
         {
             UI.Reset();
-            board.RegenerateCells();
-            board.SetPlayerToFirstCell();
+            board.Regenerate();
         }
 
         public void OnDestroy()

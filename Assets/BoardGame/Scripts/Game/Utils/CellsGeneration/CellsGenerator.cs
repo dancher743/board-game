@@ -1,5 +1,6 @@
 using Core;
 using NaughtyAttributes;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,40 +15,48 @@ namespace BoardGame.Utils.CellsGeneration
         private int elementsAmount;
 
         [Button]
-        public void Generate()
+        public List<Cell> Generate()
         {
+            var cells = new List<Cell>(elementsAmount);
+
             if (elementsAmount == 0)
             {
-                return;
+                return cells;
             }
 
             transform.DestroyChildrens();
 
-            var cellsAmount = elementsAmount;
+            var cellsLeftAmount = elementsAmount;
             var isPreviousElementConnector = false;
             var nextCellPosition = Vector3.zero;
 
-            while (cellsAmount > 0)
+            while (cellsLeftAmount > 0)
             {
-                var boardElements = elements.Where(element => element.IsConnector == !isPreviousElementConnector);
-                var boardElement = boardElements.ElementAt(Random.Range(0, boardElements.Count()));
-                var boardElementAmount = Random.Range(boardElement.RandomAmount.x, boardElement.RandomAmount.y);
-                isPreviousElementConnector = boardElement.IsConnector;
-                cellsAmount -= boardElementAmount;
+                var cellElements = elements.Where(element => element.IsConnector == !isPreviousElementConnector);
+                var cellElement = cellElements.ElementAt(Random.Range(0, cellElements.Count()));
+                var cellAmount = Random.Range(cellElement.RandomAmount.x, cellElement.RandomAmount.y);
+                isPreviousElementConnector = cellElement.IsConnector;
 
-                if (cellsAmount < 0)
+                if (cellsLeftAmount < cellAmount)
                 {
-                    boardElementAmount -= Mathf.Abs(cellsAmount);
-                    cellsAmount = 0;
+                    cellAmount = cellsLeftAmount;
+                    cellsLeftAmount = 0;
+                }
+                else
+                {
+                    cellsLeftAmount -= cellAmount;
                 }
 
-                for (int i = 0; i < boardElementAmount; i++)
+                for (int i = 0; i < cellAmount; i++)
                 {
-                    var cell = Instantiate(boardElement.Prefab, transform);
-                    cell.transform.position = nextCellPosition;
-                    nextCellPosition = cell.transform.position + cell.transform.forward;
+                    var cell = Instantiate(cellElement.Prefab, transform);
+                    cell.Initialize(nextCellPosition, transform.childCount);
+                    cells.Add(cell);
+                    nextCellPosition += cell.transform.forward;
                 }
             }
+
+            return cells;
         }
     }
 }

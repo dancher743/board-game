@@ -1,5 +1,4 @@
 using BoardGame.Utils.CellsGeneration;
-using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,15 +30,14 @@ namespace BoardGame
 
         public void Initialize()
         {
-            cells = GetCells();
-            SetPlayerToCell(0);
+            cells = cellsParent.childCount > 0 ? GetCells() : cellsGenerator.Generate();
+            SetPlayerToFirstCell();
         }
 
-        public void RegenerateCells()
+        public void Regenerate()
         {
-            cellsGenerator.Generate();
-            NumerateCells();
-            cells = GetCells();
+            cells = cellsGenerator.Generate();
+            SetPlayerToFirstCell();
         }
 
         public void MovePlayerOnCells(int count)
@@ -145,35 +143,6 @@ namespace BoardGame
         }
 
         #endregion
-
-        [Button]
-        private void NumerateCells()
-        {
-            int number = 1;
-
-            var cells = transform.Find("Cells");
-
-            if (cells == null)
-            {
-                Debug.LogError("Cells are not found.");
-                return;
-            }
-
-            foreach (Transform cell in cells)
-            {
-                cell.name = $"Cell{number}";
-                var cellText = cell.GetComponentInChildren<TextMesh>();
-
-                if (cellText != null)
-                {
-                    cellText.text = number.ToString();
-                }
-
-                number++;
-            }
-
-            Debug.Log($"Cells has been successfully numerated.");
-        }
 #endif
     }
 }
