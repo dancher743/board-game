@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace BoardGame
 {
-    [Serializable]
     public class Cell : MonoBehaviour
     {
     }

@@ -1,15 +1,14 @@
-using BoardGame.Configs;
 using Core;
 using NaughtyAttributes;
 using System.Linq;
 using UnityEngine;
 
-namespace BoardGame.Utils
+namespace BoardGame.Utils.CellsGeneration
 {
     public class CellsGenerator : MonoBehaviour
     {
         [SerializeField]
-        private BoardElement[] elements;
+        private CellElement[] elements;
 
         [SerializeField]
         private int elementsAmount;

@@ -1,4 +1,4 @@
-using BoardGame.Utils;
+using BoardGame.Utils.CellsGeneration;
 using NaughtyAttributes;
 using System;
 using System.Collections;

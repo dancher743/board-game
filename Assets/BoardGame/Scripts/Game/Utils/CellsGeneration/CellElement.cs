@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BoardGame.Configs
+namespace BoardGame.Utils.CellsGeneration
 {
     [Serializable]
-    public struct BoardElement
+    public struct CellElement
     {
         [field: SerializeField]
         public Cell Prefab { get; private set; }
